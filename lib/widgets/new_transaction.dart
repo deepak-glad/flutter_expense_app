@@ -26,7 +26,7 @@ class NewTransaction extends StatelessWidget {
             TextField(
               decoration: InputDecoration(labelText: 'Amount'),
               controller: amountController,
-              // onChanged: (val) => amountInput = val,
+              // onChanged: (val) => amountInput = val
             ),
             FlatButton(
               child: Text('Add Transaction'),

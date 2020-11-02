@@ -37,7 +37,6 @@ class _UserTransactionsState extends State<UserTransactions> {
       _userTransactions.add(newTx);
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return Column(

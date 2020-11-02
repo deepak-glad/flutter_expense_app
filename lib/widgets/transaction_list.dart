@@ -8,7 +8,7 @@ class TransactionList extends StatelessWidget {
   TransactionList(this.transactions);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     return  Column(
             children: transactions.map((tx) {
               return Card(
