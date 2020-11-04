@@ -71,11 +71,11 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  void _addNewTransaction(String txTitle, double txAmount) {
+  void _addNewTransaction(String txTitle, double txAmount,DateTime chooseDate) {
     final newTx = Transaction(
       title: txTitle,
       amount: txAmount,
-      date: DateTime.now(),
+      date: chooseDate,
       id: DateTime.now().toString(),
     );
 
@@ -95,6 +95,12 @@ class _MyHomePageState extends State<MyHomePage> {
         );
       },
     );
+  }
+
+  void _deleteTransaction(String id){
+    setState(() {
+      _userTransactions.removeWhere((element) => element.id==id );
+    });
   }
 
   @override
@@ -135,7 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
             //   ),
             // ),
             Chart(_recentTransaction),
-            TransactionList(_userTransactions),
+            TransactionList(_userTransactions,_deleteTransaction),
           ],
         ),
       ),
@@ -147,3 +153,81 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
+
+
+
+
+
+///another app for practice flex bar
+// import 'package:flutter/material.dart';
+
+// void main() => runApp(New());
+
+// class New extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Demo',
+//       theme: ThemeData(
+//         primarySwatch: Colors.blue,
+//       ),
+//       home: MyHomePage(title: 'flutter demo'),
+//     );
+//   }
+// }
+
+// class MyHomePage extends StatefulWidget {
+//   MyHomePage({Key key, this.title}) : super(key: key);
+//   final String title;
+
+//   @override
+//   _MyHomePageState createState() => _MyHomePageState();
+// }
+
+// class _MyHomePageState extends State<MyHomePage> {
+//   int _counter = 0;
+//   void _increamentCounter() {
+//     setState(() {
+//       _counter++;
+//     });
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text(widget.title),
+//       ),
+//       body: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+//         Flexible(
+//           flex: 2,
+//           fit: FlexFit.tight,
+//           child: Container(
+//             height: 100,
+//             child: Text('item 1'),
+//             color: Colors.red,
+//           ),
+//         ),
+//         Flexible(
+//           fit: FlexFit.tight,
+//           child: Container(
+//             height: 100,
+//             width: 100,
+//             child: Text('item 2'),
+//             color: Colors.indigo,
+//           ),
+//         ),
+//         Flexible(
+//           flex: 1,
+//           fit: FlexFit.tight,
+//           child: Container(
+//             height: 100,
+//             child: Text('Item 3'),
+//             color: Colors.amber,
+//           ),
+//         ),
+//       ]),
+//     );
+//   }
+// }
