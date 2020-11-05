@@ -162,22 +162,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ],
               ),
-            // Container(
-            //   width: double.infinity,
-            //   margin: EdgeInsets.all(5.0),
-            //   child: Card(
-            //     color: Colors.white,
-            //     child: Text(
-            //       'Expenses Sheet!',
-            //       style: TextStyle(
-            //         fontSize: 30.0,
-            //         color: Colors.black54,
-            //       ),
-            //       textAlign: TextAlign.center,
-            //     ),
-            //     elevation: 5,
-            //   ),
-            // ),
+           
             if(!isLandscape) Container(
                     height: (MediaQuery.of(context).size.height -
                             appbar.preferredSize.height -
