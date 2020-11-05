@@ -71,7 +71,8 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  void _addNewTransaction(String txTitle, double txAmount,DateTime chooseDate) {
+  void _addNewTransaction(
+      String txTitle, double txAmount, DateTime chooseDate) {
     final newTx = Transaction(
       title: txTitle,
       amount: txAmount,
@@ -97,28 +98,29 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void _deleteTransaction(String id){
+  void _deleteTransaction(String id) {
     setState(() {
-      _userTransactions.removeWhere((element) => element.id==id );
+      _userTransactions.removeWhere((element) => element.id == id);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-          title: Text(
-            'Expenses App',
-            // style: TextStyle(
-            //   fontFamily: 'Quicksand',
-            // ),
+    final appbar = AppBar(
+        title: Text(
+          'Expenses App',
+          // style: TextStyle(
+          //   fontFamily: 'Quicksand',
+          // ),
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () => _startAddNewTransaction(context),
           ),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () => _startAddNewTransaction(context),
-            ),
-          ]),
+        ]);
+    return Scaffold(
+      appBar: appbar,
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -140,8 +142,20 @@ class _MyHomePageState extends State<MyHomePage> {
             //     elevation: 5,
             //   ),
             // ),
-            Chart(_recentTransaction),
-            TransactionList(_userTransactions,_deleteTransaction),
+            Container(
+              height: (MediaQuery.of(context).size.height -
+                      appbar.preferredSize.height -
+                      MediaQuery.of(context).padding.top) *
+                  0.4,
+              child: Chart(_recentTransaction),
+            ),
+            Container(
+              height: (MediaQuery.of(context).size.height -
+                      appbar.preferredSize.height -
+                      MediaQuery.of(context).padding.top) *
+                  0.6,
+              child: TransactionList(_userTransactions, _deleteTransaction),
+            ),
           ],
         ),
       ),
@@ -153,11 +167,6 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
-
-
-
-
 
 ///another app for practice flex bar
 // import 'package:flutter/material.dart';
