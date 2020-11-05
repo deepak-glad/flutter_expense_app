@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
+// import 'package:flutter/services.dart';
 import './widgets/transaction_list.dart';
 import './widgets/new_transaction.dart';
 import './widgets/chart.dart';
 import './models/transaction.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  //this is for block device orientation
+  // WidgetsFlutterBinding.ensureInitialized();
+  // SystemChrome.setPreferredOrientations([
+  //   DeviceOrientation.portraitUp,
+  //   DeviceOrientation.portraitDown,
+  // ]);
+
+  return runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -104,8 +114,12 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  bool _showChart = false;
+
   @override
   Widget build(BuildContext context) {
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     final appbar = AppBar(
         title: Text(
           'Expenses App',
@@ -119,6 +133,13 @@ class _MyHomePageState extends State<MyHomePage> {
             onPressed: () => _startAddNewTransaction(context),
           ),
         ]);
+    final txListWidget = Container(
+      height: (MediaQuery.of(context).size.height -
+              appbar.preferredSize.height -
+              MediaQuery.of(context).padding.top) *
+          0.6,
+      child: TransactionList(_userTransactions, _deleteTransaction),
+    );
     return Scaffold(
       appBar: appbar,
       body: SingleChildScrollView(
@@ -126,6 +147,21 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+            if (isLandscape)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Show chart'),
+                  Switch.adaptive(
+                    value: _showChart,
+                    onChanged: (val) {
+                      setState(() {
+                        _showChart = val;
+                      });
+                    },
+                  ),
+                ],
+              ),
             // Container(
             //   width: double.infinity,
             //   margin: EdgeInsets.all(5.0),
@@ -142,20 +178,24 @@ class _MyHomePageState extends State<MyHomePage> {
             //     elevation: 5,
             //   ),
             // ),
-            Container(
-              height: (MediaQuery.of(context).size.height -
-                      appbar.preferredSize.height -
-                      MediaQuery.of(context).padding.top) *
-                  0.4,
-              child: Chart(_recentTransaction),
-            ),
-            Container(
-              height: (MediaQuery.of(context).size.height -
-                      appbar.preferredSize.height -
-                      MediaQuery.of(context).padding.top) *
-                  0.6,
-              child: TransactionList(_userTransactions, _deleteTransaction),
-            ),
+            if(!isLandscape) Container(
+                    height: (MediaQuery.of(context).size.height -
+                            appbar.preferredSize.height -
+                            MediaQuery.of(context).padding.top) *
+                        0.4,
+                    child: Chart(_recentTransaction),
+                  ),
+                  if(!isLandscape)txListWidget,
+
+            if(isLandscape)_showChart
+                ? Container(
+                    height: (MediaQuery.of(context).size.height -
+                            appbar.preferredSize.height -
+                            MediaQuery.of(context).padding.top) *
+                        0.4,
+                    child: Chart(_recentTransaction),
+                  ) 
+                : txListWidget,
           ],
         ),
       ),
