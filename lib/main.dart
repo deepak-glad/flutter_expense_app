@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
 import './widgets/transaction_list.dart';
@@ -153,6 +154,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: [
                   Text('Show chart'),
                   Switch.adaptive(
+                    activeColor: Theme.of(context).accentColor,
                     value: _showChart,
                     onChanged: (val) {
                       setState(() {
@@ -185,83 +187,10 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton:Platform.isAndroid?Container(): FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () => _startAddNewTransaction(context),
       ),
     );
   }
 }
-
-///another app for practice flex bar
-// import 'package:flutter/material.dart';
-
-// void main() => runApp(New());
-
-// class New extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'Demo',
-//       theme: ThemeData(
-//         primarySwatch: Colors.blue,
-//       ),
-//       home: MyHomePage(title: 'flutter demo'),
-//     );
-//   }
-// }
-
-// class MyHomePage extends StatefulWidget {
-//   MyHomePage({Key key, this.title}) : super(key: key);
-//   final String title;
-
-//   @override
-//   _MyHomePageState createState() => _MyHomePageState();
-// }
-
-// class _MyHomePageState extends State<MyHomePage> {
-//   int _counter = 0;
-//   void _increamentCounter() {
-//     setState(() {
-//       _counter++;
-//     });
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text(widget.title),
-//       ),
-//       body: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-//         Flexible(
-//           flex: 2,
-//           fit: FlexFit.tight,
-//           child: Container(
-//             height: 100,
-//             child: Text('item 1'),
-//             color: Colors.red,
-//           ),
-//         ),
-//         Flexible(
-//           fit: FlexFit.tight,
-//           child: Container(
-//             height: 100,
-//             width: 100,
-//             child: Text('item 2'),
-//             color: Colors.indigo,
-//           ),
-//         ),
-//         Flexible(
-//           flex: 1,
-//           fit: FlexFit.tight,
-//           child: Container(
-//             height: 100,
-//             child: Text('Item 3'),
-//             color: Colors.amber,
-//           ),
-//         ),
-//       ]),
-//     );
-//   }
-// }
