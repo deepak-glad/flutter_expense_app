@@ -76,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return _userTransactions.where((tx) {
       return tx.date.isAfter(
         DateTime.now().subtract(
-          Duration(days: 7),
+          Duration(days: 8),
         ),
       );
     }).toList();
@@ -117,6 +117,34 @@ class _MyHomePageState extends State<MyHomePage> {
 
   bool _showChart = false;
 
+  Widget _buildLandscapeContent() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text('Show chart'),
+        Switch.adaptive(
+          activeColor: Theme.of(context).accentColor,
+          value: _showChart,
+          onChanged: (val) {
+            setState(() {
+              _showChart = val;
+            });
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPortraitContent(AppBar appbar) {
+    return Container(
+      height: (MediaQuery.of(context).size.height -
+              appbar.preferredSize.height -
+              MediaQuery.of(context).padding.top) *
+          0.4,
+      child: Chart(_recentTransaction),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final isLandscape =
@@ -148,49 +176,21 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+            if (isLandscape) _buildLandscapeContent(),
+            if (!isLandscape) _buildPortraitContent(appbar),
+            if (!isLandscape) txListWidget,
             if (isLandscape)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('Show chart'),
-                  Switch.adaptive(
-                    activeColor: Theme.of(context).accentColor,
-                    value: _showChart,
-                    onChanged: (val) {
-                      setState(() {
-                        _showChart = val;
-                      });
-                    },
-                  ),
-                ],
-              ),
-           
-            if(!isLandscape) Container(
-                    height: (MediaQuery.of(context).size.height -
-                            appbar.preferredSize.height -
-                            MediaQuery.of(context).padding.top) *
-                        0.4,
-                    child: Chart(_recentTransaction),
-                  ),
-                  if(!isLandscape)txListWidget,
-
-            if(isLandscape)_showChart
-                ? Container(
-                    height: (MediaQuery.of(context).size.height -
-                            appbar.preferredSize.height -
-                            MediaQuery.of(context).padding.top) *
-                        0.4,
-                    child: Chart(_recentTransaction),
-                  ) 
-                : txListWidget,
+              _showChart ? _buildPortraitContent(appbar) : txListWidget,
           ],
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton:Platform.isAndroid?Container(): FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () => _startAddNewTransaction(context),
-      ),
+      floatingActionButton: Platform.isAndroid
+          ? Container()
+          : FloatingActionButton(
+              child: Icon(Icons.add),
+              onPressed: () => _startAddNewTransaction(context),
+            ),
     );
   }
 }
